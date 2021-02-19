@@ -1,4 +1,4 @@
-<?php
+cd work<?php
 
 /**
  * The plugin bootstrap file
