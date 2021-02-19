@@ -1,4 +1,4 @@
-cd work<?php
+<?php
 
 /**
  * The plugin bootstrap file
@@ -10,10 +10,10 @@ cd work<?php
  *
  * @link              https://stevefisher.org.uk/
  * @since             1.0.0
- * @package           Croquet_Iframe
+ * @package           croquet_iframe
  *
  * @wordpress-plugin
- * Plugin Name:       Croquet iframe
+ * Plugin Name:       Croquet Iframe
  * Plugin URI:        https://github.com/fisherab/croquet-iframe
  * Description:       This is a short description of what the plugin does. It's displayed in the WordPress admin area.
  * Version:           1.0.0

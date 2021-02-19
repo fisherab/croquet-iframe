@@ -6,8 +6,8 @@
  * @link       https://stevefisher.org.uk/
  * @since      1.0.0
  *
- * @package    Croquet_Iframe
- * @subpackage Croquet_Iframe/public
+ * @package    croquet_iframe
+ * @subpackage croquet_iframe/public
  */
 
 /**
@@ -20,8 +20,7 @@
  * @subpackage Croquet_Iframe/public
  * @author Steve Fisher <dr.s.m.fisher@gmail.com>
  */
-class Croquet_Iframe_Public
-{
+class Croquet_Iframe_Public {
 
     /**
      * The ID of this plugin.
@@ -54,6 +53,7 @@ class Croquet_Iframe_Public
     {
         $this->plugin_name = $plugin_name;
         $this->version = $version;
+        $this->register_short_codes();
     }
 
     /**
@@ -61,8 +61,7 @@ class Croquet_Iframe_Public
      *
      * @since 1.0.0
      */
-    public function enqueue_styles()
-    {
+    public function enqueue_styles() {
 
         /**
          * This function is provided for demonstration purposes only.
@@ -83,8 +82,7 @@ class Croquet_Iframe_Public
      *
      * @since 1.0.0
      */
-    public function enqueue_scripts()
-    {
+    public function enqueue_scripts()     {
 
         /**
          * This function is provided for demonstration purposes only.
@@ -105,32 +103,48 @@ class Croquet_Iframe_Public
     /**
      * Add all shortcodes for the user to add to pages or posts
      */
-    public function register_short_codes()
-    {
-        add_shortcode('croquet-iframe', [
+    private function register_short_codes() {
+        add_shortcode('croquet-rain-map', [
             $this,
-            'croquet_iframe_function'
+            'rain_map_function'
         ]);
-    }
+        add_shortcode('croquet-google-map', [
+            $this,
+            'google_map_function'
+        ]);
+    }    
 
     /**
-     * A competition of type competition_ss is a post holding all the data about a competition.
-     *
-     * The competition has post meta data:
-     * * competitors - an array of competitor ids registered for this competition
-     * * results - an array indexed by the lower
-     * id of the two competitors and from his/her perspective. Within the array
-     * is another array indexed by the id of the higher player and holding an
-     * array of game results where a game result is an array of hoops for and hoops against.
-     *
      * @param array $atts
      *            arguments with the short code
      * @param string $content
      *            material between the opening and closing of the shortcode
      */
-    public function croquet_iframe_function($atts, $content = null)
-    {
-        return 'Competion not specified in call to short code.';
+    public function rain_map_function($atts, $content = null)     {
+        foreach ($atts as $att => $val) {
+            $zoom = 5;
+            if ($att === "latitude") {
+                $latitude = intval($val);
+            } elseif ($att === "longitude") {
+                $longitude = intval($val);
+            } elseif ($att === "zoom") {
+                $zoom = intval($val);
+            } else {
+                return 'Bad shortcode parameter ' . $att;
+            }
+        }
+        return '<iframe src="https://maps.meteoradar.co.uk/GratisRadar/' . $latitude . '/' . $longitude . '/actueel?zoom= ' . $zoom . '" scrolling="no" width="500" height="500" frameborder="no"></iframe>';
     }
+
+    public function google_map_function($atts) {
+        foreach ($atts as $att => $val) {
+            if ($att === 'pb') {
+                $pb = $val;
+            } else {
+                return 'Bad shortcode parameter ' . $att;
+            }
+        }
+        return '<iframe src="https://www.google.com/maps/embed?pb=' . esc_html($pb) . '" width="600" height="450" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>';
+    }
+
 }
-	    
