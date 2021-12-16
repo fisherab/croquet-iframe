@@ -15,7 +15,7 @@
  * @wordpress-plugin
  * Plugin Name:       Croquet Iframe
  * Plugin URI:        https://github.com/fisherab/croquet-iframe
- * Description:       This is a short description of what the plugin does. It's displayed in the WordPress admin area.
+ * Description:       This provides shortcodes iframe support for specific sites that might be useful to embed and the ability to generate code with specific JS scipts. 
  * Version:           1.0.0
  * Author:            Steve Fisher
  * Author URI:        https://stevefisher.org.uk/
@@ -26,43 +26,43 @@
  */
 
 // If this file is called directly, abort.
-if ( ! defined( 'WPINC' ) ) {
-	die;
+if (! defined('WPINC')) {
+    die();
 }
 
-/**
- * Currently plugin version.
- * Start at version 1.0.0 and use SemVer - https://semver.org
- * Rename this for your plugin and update it as you release new versions.
- */
-define( 'CROQUET_IFRAME_VERSION', '1.0.0' );
-
-/**
- * The code that runs during plugin activation.
- * This action is documented in includes/class-croquet-iframe-activator.php
- */
-function activate_croquet_iframe() {
-	require_once plugin_dir_path( __FILE__ ) . 'includes/class-croquet-iframe-activator.php';
-	Croquet_Iframe_Activator::activate();
+if (! function_exists("write_log")) {
+    function write_log($log) { // TODO delete when no longer needed or make it depend  on WP_DEBUG
+        if (is_array($log) || is_object($log)){
+            error_log(print_r($log,true,3,"/tmp/my.log"));
+        } else {
+            error_log($log,3,"/tmp/my.log");
+        }
+    }
 }
 
-/**
- * The code that runs during plugin deactivation.
- * This action is documented in includes/class-croquet-iframe-deactivator.php
- */
-function deactivate_croquet_iframe() {
-	require_once plugin_dir_path( __FILE__ ) . 'includes/class-croquet-iframe-deactivator.php';
-	Croquet_Iframe_Deactivator::deactivate();
+
+define('CROQUET_IFRAME_VERSION', '1.0.0');
+
+function activate_croquet_iframe()
+{
+    require_once plugin_dir_path(__FILE__) . 'includes/class-croquet-iframe-activator.php';
+    Croquet_Iframe_Activator::activate();
 }
 
-register_activation_hook( __FILE__, 'activate_croquet_iframe' );
-register_deactivation_hook( __FILE__, 'deactivate_croquet_iframe' );
+function deactivate_croquet_iframe()
+{
+    require_once plugin_dir_path(__FILE__) . 'includes/class-croquet-iframe-deactivator.php';
+    Croquet_Iframe_Deactivator::deactivate();
+}
+
+register_activation_hook(__FILE__, 'activate_croquet_iframe');
+register_deactivation_hook(__FILE__, 'deactivate_croquet_iframe');
 
 /**
  * The core plugin class that is used to define internationalization,
  * admin-specific hooks, and public-facing site hooks.
  */
-require plugin_dir_path( __FILE__ ) . 'includes/class-croquet-iframe.php';
+require plugin_dir_path(__FILE__) . 'includes/class-croquet-iframe.php';
 
 /**
  * Begins execution of the plugin.
@@ -71,12 +71,12 @@ require plugin_dir_path( __FILE__ ) . 'includes/class-croquet-iframe.php';
  * then kicking off the plugin from this point in the file does
  * not affect the page life cycle.
  *
- * @since    1.0.0
+ * @since 1.0.0
  */
-function run_croquet_iframe() {
-
-	$plugin = new Croquet_Iframe();
-	$plugin->run();
-
+function run_croquet_iframe()
+{
+    $plugin = new Croquet_Iframe();
+    $plugin->run();
 }
+write_log("Starting up plugin");
 run_croquet_iframe();
