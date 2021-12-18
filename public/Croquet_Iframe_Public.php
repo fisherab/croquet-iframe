@@ -10,7 +10,7 @@ class Croquet_Iframe_Public {
     private $version;
 
     public function __construct($plugin_name, $version) {
-        write_log("Constructing a Croquet_Iframe_Public");
+        croquet_iframe_log("Constructing a Croquet_Iframe_Public");
         $this->plugin_name = $plugin_name;
         $this->version = $version;
         $this->register_short_codes();
@@ -43,7 +43,7 @@ class Croquet_Iframe_Public {
                 return 'Bad shortcode parameter ' . $att;
             }
         }
-        return '<iframe src="https://maps.meteoradar.co.uk/GratisRadar/' . $latitude . '/' . $longitude . '/actueel?zoom= ' . $zoom . '" scrolling="no" width="500" height="500" frameborder="no"></iframe>';
+        return '<p><iframe src="https://maps.meteoradar.co.uk/GratisRadar/' . $latitude . '/' . $longitude . '/actueel?zoom= ' . $zoom . '" scrolling="no" width="500" height="500" frameborder="no"></iframe></p>';
     }
 
     public function google_map_function($atts) {
@@ -54,7 +54,7 @@ class Croquet_Iframe_Public {
                 return 'Bad shortcode parameter ' . $att;
             }
         }
-        return '<iframe src="https://www.google.com/maps/embed?pb=' . esc_html($pb) . '" width="600" height="450" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>';
+        return '<p><iframe src="https://www.google.com/maps/embed?pb=' . esc_html($pb) . '" width="600" height="450" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe></p>';
     }
 
 }

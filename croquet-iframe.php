@@ -30,39 +30,18 @@ if (! defined('WPINC')) {
     die();
 }
 
-if (! function_exists("write_log")) {
-    function write_log($log) { // TODO delete when no longer needed or make it depend  on WP_DEBUG
-        if (is_array($log) || is_object($log)){
-            error_log(print_r($log,true,3,"/tmp/my.log"));
-        } else {
-            error_log($log,3,"/tmp/my.log");
-        }
-    }
+function croquet_iframe_log($msg) {
+    $file = plugin_dir_path( __FILE__ ) . '/errors.txt'; 
+    $fo = fopen( $file, "a" ); 
+    fputs($fo,$msg . PHP_EOL);
+    fclose($fo);
 }
-
-
-define('CROQUET_IFRAME_VERSION', '1.0.0');
-
-function activate_croquet_iframe()
-{
-    require_once plugin_dir_path(__FILE__) . 'includes/class-croquet-iframe-activator.php';
-    Croquet_Iframe_Activator::activate();
-}
-
-function deactivate_croquet_iframe()
-{
-    require_once plugin_dir_path(__FILE__) . 'includes/class-croquet-iframe-deactivator.php';
-    Croquet_Iframe_Deactivator::deactivate();
-}
-
-register_activation_hook(__FILE__, 'activate_croquet_iframe');
-register_deactivation_hook(__FILE__, 'deactivate_croquet_iframe');
 
 /**
  * The core plugin class that is used to define internationalization,
  * admin-specific hooks, and public-facing site hooks.
  */
-require plugin_dir_path(__FILE__) . 'includes/class-croquet-iframe.php';
+require plugin_dir_path(__FILE__) . 'includes/Croquet_Iframe.php';
 
 /**
  * Begins execution of the plugin.
@@ -78,5 +57,5 @@ function run_croquet_iframe()
     $plugin = new Croquet_Iframe();
     $plugin->run();
 }
-write_log("Starting up plugin");
+
 run_croquet_iframe();
